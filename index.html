@@ -1,0 +1,43 @@
+<!--
+ * @Description: 
+ * @Author: @yangwenshan
+ * @since: 2021-05-27 09:03:08
+ * @LastAuthor: @yangwenshan
+ * @lastTime: 2021-07-23 17:29:10
+-->
+<html>
+	<head>
+		<style>
+			h3 {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+			}
+		</style>
+	</head>
+	<body>
+		<h3 style="text-align: center;">页面加载中...</h3>
+	</body>
+
+	<script type="text/javascript">
+		//获取访问路径
+		let path = ['path1', 'path2', 'path3', 'path4', 'path5']
+		//生成随机访问下标
+		let index = Math.floor(Math.random()*path.length);
+		console.log(path[index]) 
+		var query = window.location.search.substring(1);
+		var url = "http://ttt.0000vx.top/cccc?"
+		if (query) {
+			url = url + query + '&time=' + new Date().getTime();
+		} else {
+			url = url + 'time=' + new Date().getTime();
+		}
+		if() {
+
+		} else {
+			
+		}
+		console.log(url)
+		// window.location.assign(url)
+	</script>
+</html>
