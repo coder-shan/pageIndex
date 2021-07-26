@@ -23,19 +23,40 @@
 		//获取访问路径
 		let path = ['path1', 'path2', 'path3', 'path4', 'path5']
 		//生成随机访问下标
-		let index = Math.floor(Math.random()*path.length);
-		console.log(path[index]) 
+		let index = Math.floor(Math.random() * path.length);
+		console.log(path[index])
 		var query = window.location.search.substring(1);
+
+		function GetQueryString(name) {
+			var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+			var r = window.location.search.substr(1).match(reg);
+			if (r != null) {
+				return unescape(r[2]);
+			}
+			return null;
+		}
+
 		var url = "http://ttt.0000vx.top/cccc?"
 		if (query) {
 			url = url + query + '&time=' + new Date().getTime();
 		} else {
 			url = url + 'time=' + new Date().getTime();
 		}
-		if() {
-
+		let v = GetQueryString('v')
+		if (v) {
+			switch (v) {
+				case 1.0:
+					//pass
+					break;
+				case 2.0:
+					//pass
+					break;
+				default:
+					//pass
+					break;
+			}
 		} else {
-			
+			// pass
 		}
 		console.log(url)
 		// window.location.assign(url)
