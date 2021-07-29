@@ -20,13 +20,6 @@
 	</body>
 
 	<script type="text/javascript">
-		//获取访问路径
-		let path = ['path1', 'path2', 'path3', 'path4', 'path5']
-		//生成随机访问下标
-		let index = Math.floor(Math.random() * path.length);
-		console.log(path[index])
-		var query = window.location.search.substring(1);
-
 		function GetQueryString(name) {
 			var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
 			var r = window.location.search.substr(1).match(reg);
@@ -35,30 +28,54 @@
 			}
 			return null;
 		}
+		//获取访问路径
+		const url = "http://47.106.67.59:7015/sys/url/list"
+		var xhr = new XMLHttpRequest();
+		xhr.open('GET', url, false);
+		xhr.onreadystatechange = function() {
+			// readyState == 4说明请求已完成
+			if (xhr.readyState == 4) {
+				if (xhr.status == 200 || xhr.status == 304) {
+					let pathArray = (JSON.parse(xhr.responseText)).data
+					//生成随机访问下标
+					let index = Math.floor(Math.random() * pathArray.length);
+					if (Array.isArray(pathArray)) {
+						let path = pathArray[index]
+						var query = window.location.search;
 
-		var url = "http://ttt.0000vx.top/cccc?"
-		if (query) {
-			url = url + query + '&time=' + new Date().getTime();
-		} else {
-			url = url + 'time=' + new Date().getTime();
-		}
-		let v = GetQueryString('v')
-		if (v) {
-			switch (v) {
-				case 1.0:
-					//pass
-					break;
-				case 2.0:
-					//pass
-					break;
-				default:
-					//pass
-					break;
+						var url = path.domainName + path.url
+						if (query) {
+							url = url + query + '&time=' + new Date().getTime();
+						} else {
+							url = url + '?time=' + new Date().getTime();
+						}
+						let v = GetQueryString('v')
+						if (v) {
+							//根据不同版本跳转	
+							switch (v) {
+								case "1.0":
+									console.log(1)
+									//pass
+									break;
+								case "2.0":
+									console.log(2)
+									//pass
+									break;
+								default:
+									console.log(3)
+									//pass
+									break;
+							}
+						} else {
+							// pass
+						}
+						console.log(url)
+						window.location.assign(url)
+					}
+
+				}
 			}
-		} else {
-			// pass
 		}
-		console.log(url)
-		// window.location.assign(url)
+		xhr.send();
 	</script>
 </html>
