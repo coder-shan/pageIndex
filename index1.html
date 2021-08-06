@@ -11,9 +11,12 @@
 			h3 {
 				position: absolute;
 				top: 50%;
+				transform: translate(-50%,-50%);
 				left: 50%;
+				font-size: 3em;
 			}
 		</style>
+		<meta http-equiv="content-type" content="txt/html; charset=utf-8" />
 	</head>
 	<body>
 		<h3 style="text-align: center;">页面加载中...</h3>
@@ -29,7 +32,15 @@
 			return null;
 		}
 		//获取访问路径
-		const url = "http://47.106.67.59:7015/sys/url/list"
+		let pathname = window.location.pathname;
+		let type = 'home'
+		if (pathname == "/zYe" || pathname == '/share1'){
+		    type = 'home'
+		}
+		if (pathname == "/vote" || pathname == '/share2'){
+		     type = 'vote'
+		}
+		const url = "http://47.106.67.59:7015/sys/url/list?type=" + type
 		var xhr = new XMLHttpRequest();
 		xhr.open('GET', url, false);
 		xhr.onreadystatechange = function() {
@@ -39,38 +50,40 @@
 					let pathArray = (JSON.parse(xhr.responseText)).data
 					//生成随机访问下标
 					let index = Math.floor(Math.random() * pathArray.length);
+		
 					if (Array.isArray(pathArray)) {
 						let path = pathArray[index]
 						var query = window.location.search;
+						var url1 = `http://${path.domainName }`
 
-						var url = path.domainName + path.url
-						if (query) {
-							url = url + query + '&time=' + new Date().getTime();
-						} else {
-							url = url + '?time=' + new Date().getTime();
-						}
 						let v = GetQueryString('v')
 						if (v) {
 							//根据不同版本跳转	
 							switch (v) {
 								case "1.0":
-									console.log(1)
-									//pass
+									url1 += path.url;
 									break;
 								case "2.0":
-									console.log(2)
-									//pass
+									url1 += '/v2' + path.url;
 									break;
 								default:
-									console.log(3)
-									//pass
+									url1 += path.url;
 									break;
 							}
 						} else {
 							// pass
 						}
-						console.log(url)
-						window.location.assign(url)
+						if (query) {
+							if(GetQueryString('linkToken')) {
+								url1 = url1 + query + '&time=' + new Date().getTime();
+							} else {
+								url1 = url1 + query + '&time=' + new Date().getTime() + '&linkToken=1';
+							}
+						} else {
+							url1 = url1 + '?time=' + new Date().getTime() + '&linkToken=1';
+						}
+						// alert(url1)
+						window.location.assign(url1)
 					}
 
 				}
